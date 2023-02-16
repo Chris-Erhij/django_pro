@@ -12,7 +12,7 @@ class Question(Model):
     pub_date: DateTimeField | float = models.DateTimeField('date published')
 
     # Return question text as a string
-    def __str__(self) -> CharField:
+    def __str__(self) -> CharField | str:
         return self.question_text
 
     def was_published_recently(self) -> bool:
@@ -25,5 +25,5 @@ class Choice(Model):
     votes: IntegerField = models.IntegerField(default=0)
 
     # Return a choice as a sting
-    def __str__(self) -> CharField:
+    def __str__(self) -> CharField | str:
         return self.choice_text

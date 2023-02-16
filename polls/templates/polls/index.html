@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>my polls homepage</title>
+    </head>
+    <body>
+        {% if list_latest_questions %}
+            <ul>
+                {% for question in list_latest_questions %}
+                    <li><a href="{% url 'polls:detail' question.id %}">{{question.question_text}}</a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+                <p> there are no questions </p>
+        {% endif %}
+    </body>
+</html>
