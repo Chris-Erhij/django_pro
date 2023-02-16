@@ -21,8 +21,8 @@ class Post(Model):
                                          choices=Status.choices, default=Status.DRAFT)
 
     class Meta:
-        order: List[str] = ['-date_published', ]  # in reverse order
-        indexing: List[Index] = [models.Index(fields=['-date_published', ])]
+        ordering: List[str] = ['-date_published', ]  # in reverse order
+        indexes: List[Index] = [models.Index(fields=['-date_published', ])]
 
     def __str__(self) -> str | CharField:
         return self.blog_title
