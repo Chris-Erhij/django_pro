@@ -20,15 +20,16 @@ def detail(request: HttpRequest, question_id: str) -> render:
     return render(request, 'polls/detail.html', {'question': question})
 
 
-def results(request: HttpRequest, question_id: str) -> HttpResponse:
-    return HttpResponse("This is the vote result for question %s." % question_id)
+def results(request: HttpRequest, question_id: int) -> HttpResponse:
+    question: get_object_or_404 | Question = get_object_or_404(Question, pk=question_id)
+    return HttpResponse(request, 'polls/result.html', {'question': question})
 
 
 def vote(request: HttpRequest, question_id: str) -> HttpResponseRedirect or render:
     question: get_object_or_404 = get_object_or_404(Question, pk=question_id)
+
     try:
         selected_choice: Choice = question.choice_set.get(pk=request.POST['choice'])
-
     except (KeyError, Choice.DoesNotExist):
         # reloads the voting form in the question detail page
         message: str = "You've not selected any choice"
