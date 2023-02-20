@@ -22,7 +22,7 @@ def detail(request: HttpRequest, question_id: str) -> render:
 
 def results(request: HttpRequest, question_id: int) -> HttpResponse:
     question: get_object_or_404 | Question = get_object_or_404(Question, pk=question_id)
-    return HttpResponse(request, 'polls/result.html', {'question': question})
+    return HttpResponse(request, 'polls/results.html', {'question': question})
 
 
 def vote(request: HttpRequest, question_id: str) -> HttpResponseRedirect or render:
