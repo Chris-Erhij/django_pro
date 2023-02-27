@@ -1,29 +1,29 @@
-from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
+from django.http import HttpRequest, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
-from django.template import loader
-from typing import List, Dict
 from .models import Question, Choice
 from django.urls import reverse
+from django.views.generic import (
+                                    ListView, DetailView,
+                                  )
+from django.db import models
 
 
-def index(request: HttpRequest) -> HttpResponse:
-    list_latest_questions: List = Question.objects.order_by('-pub_date')[:]
-    template: loader = loader.get_template('polls/index.html')
-    context: Dict = {
-        'list_latest_questions': list_latest_questions
-    }
-    return HttpResponse(template.render(context, request))
+class IndexView(ListView):
+    template_name: str = "polls/index.html"
+    context_object_name: str = "list_latest_questions"
+
+    def get_queryset(self) -> Question:
+        return Question.objects.order_by('-pub_date')[:]
 
 
-def detail(request: HttpRequest, question_id: str) -> render:
-    question: Question = get_object_or_404(Question, pk=question_id)
-    return render(request, 'polls/detail.html', {'question': question})
+class DetailsView(DetailView):
+    model: models.Model = Question
+    template_name: str = "polls/detail.html"
 
 
-def results(request: HttpRequest, question_id: int) -> HttpResponse:
-    question: get_object_or_404 | Question = get_object_or_404(Question, pk=question_id)
-    template: loader = loader.get_template('polls/results.html')
-    return HttpResponse(template.render({'question': question}, request))
+class ResultsView(DetailView):
+    model: models.Model = Question
+    template_name: str = "polls/results.html"
 
 
 def vote(request: HttpRequest, question_id: str) -> HttpResponseRedirect or render:
