@@ -6,6 +6,7 @@ from django.views.generic import (
                                     ListView, DetailView,
                                   )
 from django.db import models
+from django.utils import timezone
 
 
 class IndexView(ListView):
@@ -13,7 +14,12 @@ class IndexView(ListView):
     context_object_name: str = "list_latest_questions"
 
     def get_queryset(self) -> Question:
-        return Question.objects.order_by('-pub_date')[:]
+        """Return a list of all published questions past and recent
+
+        Excluding the ones published with dates set into the
+        future with any x numbers of days"""
+
+        return Question.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')[:]
 
 
 class DetailsView(DetailView):
