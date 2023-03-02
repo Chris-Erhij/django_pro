@@ -72,3 +72,27 @@ class QuestionIndexViewTest(TestCase):
         question: Question = create_question(question_text="This is yet again another past question", days=-60)
         response: TestCase = self.client.get(reverse('polls:index'))
         self.assertQuerysetEqual(response.context['list_latest_questions'], [question],)
+
+
+class QuestionDetailViewTest(TestCase):
+    def test_future_question(self) -> None:
+        """Return a 404 not found error with questions whose publication dates are set in the future
+
+            If a user is able to guess a url for a certain question detail, function is able to test to see if
+            said question is displayed to the user.
+        """
+        future_question: Question = create_question(
+            question_text="What are your intentions for this"
+            "in the future", days=16
+        )
+        url: reverse = reverse('polls:detail', args=future_question.id)
+        response: TestCase = self.client.get(url)
+        self.assertContains(response.status_code, 404)
+
+    def test_past_question(self) -> None:
+        """Display questions whose publication dates are set in the past
+        """
+        past_question: Question = create_question(question_text="A past question for test purposes", days=-16)
+        url: reverse = reverse("polls:detail", args=past_question.id,)
+        response: TestCase = self.client.get(url)
+        self.assertQuerysetEqual(response, past_question.question_text)

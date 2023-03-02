@@ -26,6 +26,14 @@ class DetailsView(DetailView):
     model: models.Model = Question
     template_name: str = "polls/detail.html"
 
+    def get_queryset(self) -> Question:
+        """Only return question which are published in past and recently
+
+           i.e. Question whose publication dates is less than or equal to current time
+           using dunder lte (__lte)
+        """
+        return Question.objects.filter(pub_date__lte=timezone.now())
+
 
 class ResultsView(DetailView):
     model: models.Model = Question
@@ -48,4 +56,4 @@ def vote(request: HttpRequest, question_id: str) -> HttpResponseRedirect or rend
         selected_choice.votes += 1
         selected_choice.save()
 
-        return HttpResponseRedirect(reverse('polls:results', args=(question_id,)))
+        return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
