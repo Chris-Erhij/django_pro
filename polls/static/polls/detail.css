@@ -1,0 +1,14 @@
+form {
+    background-color: skyblue;
+    color: white;
+    }
+body {
+    background: gray url("images/SeekPng.com_africa-png_179223.png") no-repeat;
+    }
+#vote_button {
+    background: green;
+    color: white;
+    }
+#list_items {
+    color: green;
+    }

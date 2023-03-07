@@ -3,6 +3,8 @@
     <head>
         <meta charset="UTF-8">
         <title> {{ question.question_text }}'s vote stats</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'polls/results.css' %}">
     </head>
     <body>
         <h1> {{ question.question_text }} </h1>
