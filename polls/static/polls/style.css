@@ -1,40 +1,48 @@
+/* Add a color to the list of questions */
 li a {
     color: green;
+
+/* Add an image on a white background in the body */
 }
 body {
     background: white url("images/—Pngtree—colorful smoke_3687571.png") no-repeat;
 }
+
 /* Add a black background color to the top navigation */
 .topnav {
-  background-color: blue;
-  overflow: hidden;
+    background-color: blue;
+    overflow: hidden;
 }
 
 /* Style the links inside the navigation bar */
 .topnav a {
-  float: right;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
+    float: right;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
 }
 
 /* Change the color of links on hover */
 .topnav a:hover {
-  background-color: #ddd;
-  color: black;
+    background-color: #ddd;
+    color: black;
 }
 
 /* Add a color to the active/current link */
 .topnav a.active {
-  background-color: #04AA6D;
-  color: white;
+    background-color: #04AA6D;
+    color: white;
 }
 
+/* Style and place footer in fixed location */
 .footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: blue;
+    color: white;
     text-align: center;
-      padding: 3px;
-      background-color: blue;
-      color: white;
 }
