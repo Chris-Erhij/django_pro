@@ -2,8 +2,9 @@ from typing import List, Tuple
 from django.db import models
 from django.utils import timezone
 from django.db.models import (
-    Model, CharField, SlugField, TextField, DateTimeField, Index
+    Model, CharField, SlugField, TextField, DateTimeField, Index, ForeignKey
 )
+from django.contrib.auth.models import User
 
 
 class Post(Model):
@@ -13,6 +14,9 @@ class Post(Model):
 
     blog_title: CharField = models.CharField("title", max_length=250)
     slug: SlugField = models.SlugField(max_length=250)
+    author: ForeignKey = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='blog_posts'
+    )
     body: TextField = models.TextField()
     date_published: DateTimeField = models.DateTimeField(default=timezone.now)
     date_created: DateTimeField = models.DateTimeField(auto_now_add=True)
