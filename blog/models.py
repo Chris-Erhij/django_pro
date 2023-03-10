@@ -1,4 +1,4 @@
-from typing import List, Tuple, Any
+from typing import List, Any
 from django.db import models
 from django.utils import timezone
 from django.db.models import (
@@ -14,8 +14,8 @@ class PublishedManager(models.Manager):  # Overriding manager class
 
 class Post(Model):
     class Status(models.TextChoices):
-        DRAFT: Tuple[str] = ('PB', 'Published') # type: ignore
-        PUBLISHED: Tuple[str] = ('DT', 'Draft') # type: ignore
+        DRAFT = ('PB', 'Published')
+        PUBLISHED = ('DT', 'Draft')
 
     blog_title: CharField = models.CharField("title", max_length=250)
     slug: SlugField = models.SlugField(max_length=250)
