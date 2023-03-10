@@ -8,20 +8,26 @@ from django.db.models import (
 from django.contrib.auth.models import User
 
 
+# Custom object mangager class
 class PublishedManager(models.Manager):  # Overriding manager class
     def get_queryset(self) -> Any:
-            return super().get_queryset().filter(status=Post.Status.PUBLISHED)
+            return super().get_queryset().filter(status=Post.Status.PUBLISHED)  # Overridden super get_query() of the Manager class.
 
 class Post(Model):
     class Status(models.TextChoices):
-        DRAFT = ('PB', 'Published')
-        PUBLISHED = ('DT', 'Draft')
+        """Enum class for blog_post choices
+        
+        Best defined in the model for easy usage from anywhere in the code
+        """
+        PUBLISHED = ('PB', 'Published')  # Name, value, and lable repectively
+        DRAFT = ('DT', 'Draft')
 
     blog_title: CharField = models.CharField("title", max_length=250)
     slug: SlugField = models.SlugField(max_length=250)
     author: ForeignKey = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='blog_posts',
-    )
+    )  # A many-to-one relationship
+
     body: TextField = models.TextField()
     date_published: DateTimeField = models.DateTimeField(default=timezone.now)
     date_created: DateTimeField = models.DateTimeField(auto_now_add=True)
