@@ -5,6 +5,8 @@ from blog.models import Post, PublishedManager
 from django.core.paginator import (
     Paginator, PageNotAnInteger, EmptyPage,
 )
+from .forms import EmailPostForm
+from django.shortcuts import get_object_or_404
 
 
 def post_list(request: HttpRequest) -> HttpResponse:
@@ -40,3 +42,22 @@ def post_detail(request: HttpRequest, year: str, month: str, day: str, post: str
     except Post.DoesNotExist:
         raise Http404("post not found") from None
     return render(request, 'blog/post/detail.html', {'post_context': post_context})
+
+def post_share(request: HttpRequest, post_id: str) -> HttpResponse:
+    """A function to both render and submit a form
+
+        Renders a form for a published Post element, if fields are valid, submits form.
+        otherwise re-renders with the invalid inputs
+    """
+
+    post = get_object_or_404(Post, status=Post.Status.PUBLISHED, id=post_id)
+    if request.method == 'POST':
+        # creates a form object if request method is Post
+        form = EmailPostForm(request.POST)
+        
+        if form.is_valid():  # checks for validity
+            form = form.cleaned_data
+            # sumbit form
+    else:
+        form = EmailPostForm()  # re-renders form
+    return render(request, 'blog/post/share.html', {'post': post, 'form': form})
