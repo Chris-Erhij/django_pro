@@ -5,6 +5,7 @@ from django.db.models import (
                               )
 import datetime
 from django.utils import timezone
+from typing import Any
 
 
 class Question(Model):
@@ -16,8 +17,8 @@ class Question(Model):
         return self.question_text
 
     def was_published_recently(self) -> bool:
-        now: timezone = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.pub_date <= now
+        now = timezone.now()
+        return now - datetime.timedelta(days=1) <= self.pub_date <= now # type: ignore
 
 
 class Choice(Model):
