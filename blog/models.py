@@ -68,3 +68,6 @@ class Post(Model):
                                                   self.date_published.day, self.slug
                                                   ))  # SEO
     
+
+class Comment(Model):
+     pass

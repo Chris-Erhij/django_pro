@@ -69,3 +69,7 @@ def post_share(request: HttpRequest, post_id: str) -> HttpResponse:
     else:
         form = EmailPostForm()  # re-renders form
     return render(request, 'blog/post/share.html', {'post': post, 'form': form, 'sent': sent})
+
+
+def post_comment(request: HttpRequest, post_id: str) -> HttpResponse:
+    pass
