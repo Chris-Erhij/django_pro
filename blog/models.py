@@ -24,7 +24,7 @@ class Post(Model):
     class Status(models.TextChoices):
         """Enum class for blog_post choices
         
-        Best defined in the model for easy usage from anywhere in the code
+           Best defined in the model for easy usage from anywhere in the code
         """
         PUBLISHED = ('PB', 'Published')  # Name, value, and lable repectively
         DRAFT = ('DT', 'Draft')

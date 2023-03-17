@@ -7,6 +7,7 @@ from django.core.paginator import (
 )
 from .forms import EmailPostForm
 from django.shortcuts import get_object_or_404
+from django.core.mail import send_mail
 
 
 def post_list(request: HttpRequest) -> HttpResponse:
@@ -51,13 +52,20 @@ def post_share(request: HttpRequest, post_id: str) -> HttpResponse:
     """
 
     post = get_object_or_404(Post, status=Post.Status.PUBLISHED, id=post_id)
+    sent: bool = False
     if request.method == 'POST':
         # creates a form object if request method is Post
         form = EmailPostForm(request.POST)
         
         if form.is_valid():  # checks for validity
-            form = form.cleaned_data
+            cd = form.cleaned_data
+            post_url = request.build_absolute_uri(post.get_absolute_url())
+            subject = F"{cd['name']} recommends you read {post.blog_title}"
+            message = F"Read {post.blog_title} at {post_url}\n\n {cd['name']}\'s comment: {cd['comment']}"
+            send_mail(subject, message, 'christianerhijotah@gmail.com', [cd['to']])
+            sent = True
             # sumbit form
+
     else:
         form = EmailPostForm()  # re-renders form
-    return render(request, 'blog/post/share.html', {'post': post, 'form': form})
+    return render(request, 'blog/post/share.html', {'post': post, 'form': form, 'sent': sent})
