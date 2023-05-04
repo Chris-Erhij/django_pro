@@ -1,9 +1,9 @@
-from typing import List, Any
+from typing import List, Any, Type
 from django.db import models
 from django.utils import timezone
 from django.db.models import (
     Model, CharField, SlugField, TextField, DateTimeField, Index, ForeignKey,
-    Manager,
+    Manager, BooleanField, EmailField,
 )
 from django.contrib.auth.models import User
 from django.urls import reverse
@@ -70,4 +70,20 @@ class Post(Model):
     
 
 class Comment(Model):
-     pass
+    post: ForeignKey = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+    name: CharField = models.CharField(max_length=80)
+    email: EmailField = models.EmailField()
+    body: TextField = models.TextField()
+    created: DateTimeField = models.DateTimeField(auto_now_add=True)
+    updated: DateTimeField= models.DateTimeField(auto_now=True)
+    active: BooleanField = models.BooleanField(default=True)
+
+    class Meta:
+         ordering: List[str,] = ['created',]
+         indexes: List[Type] = [
+              models.Index(fields=['created',]),
+         ]
+
+    def __str__(self) -> str:
+         return "Comment by %s on %s" %self.name %self.post
+    

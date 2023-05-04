@@ -1,5 +1,7 @@
 from django.forms import Form, ModelForm
 from django import forms
+from .models import Comment
+import typing as ty
 
 
 class EmailPostForm(Form):
@@ -10,4 +12,6 @@ class EmailPostForm(Form):
 
 
 class CommentForm(ModelForm):
-    pass
+    model = Comment
+    fields: ty.List[str,] = ['name', 'email', 'body']
+    

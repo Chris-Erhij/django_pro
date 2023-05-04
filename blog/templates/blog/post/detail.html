@@ -1,16 +1,21 @@
 {% extends 'blog/base.html' %}
 
-{% block title %} {{ post_context.blog_title }} {% endblock %}
+{% block title %} {{ post_obj.blog_title }} {% endblock %}
 
 {% block content %}
-    <h1> {{ post_context.blog_title }} </h1>
+    <h1> {{ post_obj.blog_title }} </h1>
     <p class="date">
-        published {{ post_context.date_published }} by {{ post_context.author }}
+        published {{ post_obj.date_published }} by {{ post_obj.author }}
     </p>
-    {{ post_context.body | linebreaks }}
+    {{ post_obj.body|linebreaks }}
     <p>
-        <a href="{% url 'blog:post_share' post_context.id %}">
+        <a href="{% url 'blog:post_share' post.id %}">
             share
         </a>
     </p>
+    {% with comments.count as total_comments %}
+        <h2>
+            {{ total_comments }} comment{{ total_comments|pluralize }}
+        </h2>
+    {% endwith %}
 {% endblock %}
